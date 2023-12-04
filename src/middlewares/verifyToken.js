@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+//xác minh token
+// dùng để kiểm tra đã đăng nhập hay chưa
 const verifyToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
@@ -24,6 +26,10 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
+//từ đây là phân quyền
+// ---------------------------------------------------------------------------------
+
+// lãnh đạo công ty (manager)
 const isManager = async (req, res, next) => {
   try {
     const { role } = req.user;
@@ -39,6 +45,7 @@ const isManager = async (req, res, next) => {
   }
 };
 
+// trưởng điển giao dịch hoặc điểm tập kết
 const isLeader = async (req, res, next) => {
   try {
     const { role } = req.user;
@@ -54,10 +61,11 @@ const isLeader = async (req, res, next) => {
   }
 };
 
+//nhân viên
 const isStaff = async (req, res, next) => {
   try {
     const { role } = req.user;
-    if (role !== "staff") {
+    if (role !== "staff" && role !== "leader" && role !== "manager") {
       return res.status(401).json({
         success: false,
         message: "Bạn không có chức năng này",

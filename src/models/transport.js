@@ -2,7 +2,20 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Transport extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Transport.belongsTo(models.Order, {
+        foreignKey: "order_id",
+        targetKey: "id",
+      }),
+        Transport.belongsTo(models.Point, {
+          foreignKey: "point_sender_id",
+          targetKey: "id",
+        });
+      Transport.belongsTo(models.Point, {
+        foreignKey: "point_receiver_id",
+        targetKey: "id",
+      });
+    }
   }
   Transport.init(
     {

@@ -6,6 +6,7 @@ const hashPassword = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
+// Tạo tài khoản người dùng (user)
 const createUser = async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
@@ -33,6 +34,7 @@ const createUser = async (req, res) => {
   }
 };
 
+//login
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -65,6 +67,7 @@ const login = async (req, res) => {
   }
 };
 
+// tạo leader
 const createLeader = async (req, res) => {
   try {
     const { name, email, password, phone, address, namePoint } = req.body;
@@ -95,6 +98,7 @@ const createLeader = async (req, res) => {
   }
 };
 
+// update leader
 const updateLeader = async (req, res) => {
   try {
     const { email, ...body } = req.body;
@@ -118,13 +122,14 @@ const updateLeader = async (req, res) => {
   }
 };
 
+// lấy danh sách leader
 const getAllLeader = async (req, res) => {
   try {
     const response = await db.User.findAll({
       where: { role: "leader" },
       raw: true,
       nest: true,
-      include: [{ model: db.Point, as: "points", attributes: ["name"] }],
+      include: [{ model: db.Point, attributes: ["name", "type"] }],
       attributes: ["id", "name", "email", "role", "address"],
     });
     return res.status(200).json({
@@ -137,11 +142,44 @@ const getAllLeader = async (req, res) => {
   }
 };
 
+//lấy leader details
+const getLeader = async (req, res) => {
+  try {
+    const { uid } = req.params;
+    if (!uid) {
+      return res.status(401).json({
+        success: false,
+        message: "Nhập thiếu dữ liệu",
+      });
+    }
+    const response = await db.User.findOne({
+      where: { id: uid, role: "leader" },
+      nest: true,
+      include: [{ model: db.Point, attributes: ["name", "type"] }],
+      raw: true,
+    });
+    return res.status(200).json({
+      success: response ? true : false,
+      message: response ? "completed" : "wrong",
+      data: response,
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+//xóa leader
 const deleteLeader = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { uid } = req.body;
+    if (!uid) {
+      return res.status(401).json({
+        success: false,
+        message: "Nhập thiếu dữ liệu",
+      });
+    }
     const response = await db.User.destroy({
-      where: { email },
+      where: { id: uid },
     });
     return res.status(200).json({
       success: response ? true : false,
@@ -152,6 +190,7 @@ const deleteLeader = async (req, res) => {
   }
 };
 
+//tạo nhân viên
 const createStaff = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
@@ -186,4 +225,5 @@ module.exports = {
   updateLeader,
   getAllLeader,
   deleteLeader,
+  getLeader,
 };

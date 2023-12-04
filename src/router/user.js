@@ -2,7 +2,7 @@ const router = require("express").Router();
 const user = require("../controllers/user");
 const middlewares = require("../middlewares/verifyToken");
 
-router.post("/create", user.createUser);
+router.post("/createuser", user.createUser);
 router.post("/login", user.login);
 router.post(
   "/createleader",
@@ -28,8 +28,16 @@ router.get(
   user.getAllLeader
 );
 
+//get leader nhớ truyền params là id
+router.get(
+  "/getleader/:uid",
+  [middlewares.verifyToken, middlewares.isManager],
+  user.getLeader
+);
+
+// xoa leader
 router.delete(
-  "/deleteleader",
+  "/deleteleader/:uid",
   [middlewares.verifyToken, middlewares.isManager],
   user.deleteLeader
 );

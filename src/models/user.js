@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Point, {
         foreignKey: "point_id",
         targetKey: "id",
-        as: "points",
       });
     }
   }
