@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Transport.init(
     {
-      name: DataTypes.STRING,
       order_id: DataTypes.INTEGER,
       point_sender_id: DataTypes.INTEGER,
       point_receiver_id: DataTypes.INTEGER,

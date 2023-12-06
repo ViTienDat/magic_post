@@ -1,43 +1,35 @@
 const router = require("express").Router();
-const order = require("../controllers/order");
+const transport = require("../controllers/transport");
 const middlewares = require("../middlewares/verifyToken");
 
 router.post(
-  "/",
+  "/create",
   [middlewares.verifyToken, middlewares.isStaff],
-  order.createOrder
-);
-
-router.delete(
-  "/:oid",
-  [middlewares.verifyToken, middlewares.isStaff],
-  order.deleteOrder
+  transport.crreateTp
 );
 
 router.get(
-  "/getorderdetails/:oid",
+  "/sendstaff",
   [middlewares.verifyToken, middlewares.isStaff],
-  order.getOrderDetail
+  transport.getTpSendByStaff
 );
-
-router.get("/orderbyuser", middlewares.verifyToken, order.getOrderByUser);
 
 router.get(
-  "/getallorder",
+  "/receivestaff",
   [middlewares.verifyToken, middlewares.isStaff],
-  order.getAllOrder
+  transport.getTpReciveByStaff
 );
 
 router.put(
-  "/completedorder/:id",
+  "/completedtp/:tid",
   [middlewares.verifyToken, middlewares.isStaff],
-  order.completedOrder
+  transport.completedTp
 );
 
 router.put(
-  "/wrongorder",
+  "/wrongtp/:tid",
   [middlewares.verifyToken, middlewares.isStaff],
-  order.wrongOrder
+  transport.wrongTp
 );
 
 module.exports = router;

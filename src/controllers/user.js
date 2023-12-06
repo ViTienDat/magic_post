@@ -7,10 +7,11 @@ const hashPassword = (password) => {
 };
 
 // Tạo tài khoản người dùng (user)
+// em truyền các biến: name, email, password, phone, address
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
-    if (!name || !email || !password || !phone || !role) {
+    const { name, email, password, phone, address } = req.body;
+    if (!name || !email || !password || !phone || !address) {
       throw new Error("Nhập nhiếu dữ liệu");
     }
 
@@ -21,7 +22,8 @@ const createUser = async (req, res) => {
         email,
         password: hashPassword(password),
         phone,
-        role,
+        address,
+        role: "user",
       },
     });
     return res.status(200).json({
@@ -35,6 +37,7 @@ const createUser = async (req, res) => {
 };
 
 //login
+// truyền email, password
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -68,6 +71,7 @@ const login = async (req, res) => {
 };
 
 // tạo leader
+// truyền name, email, password, phone, address, namePoint(tên của điểm giao dịch hoặc điểm tập kết)
 const createLeader = async (req, res) => {
   try {
     const { name, email, password, phone, address, namePoint } = req.body;
@@ -99,6 +103,7 @@ const createLeader = async (req, res) => {
 };
 
 // update leader
+//em cx truyền tương tự như user là được
 const updateLeader = async (req, res) => {
   try {
     const { email, ...body } = req.body;
@@ -143,6 +148,7 @@ const getAllLeader = async (req, res) => {
 };
 
 //lấy leader details
+//truyền user_id vào params
 const getLeader = async (req, res) => {
   try {
     const { uid } = req.params;
@@ -169,6 +175,7 @@ const getLeader = async (req, res) => {
 };
 
 //xóa leader
+//truyền user_id vào params
 const deleteLeader = async (req, res) => {
   try {
     const { uid } = req.body;
@@ -191,6 +198,7 @@ const deleteLeader = async (req, res) => {
 };
 
 //tạo nhân viên
+// name, email, password, phone, address
 const createStaff = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;

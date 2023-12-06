@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const user = require("../controllers/user");
 const middlewares = require("../middlewares/verifyToken");
-
+//middlewares.verifyToken: yêu cầu đăng nhập
+// middlewares.isManager || isStaff || isLeader: phân quyên (yêu cầu phải có role này mới dùng được)
 router.post("/createuser", user.createUser);
 router.post("/login", user.login);
 router.post(

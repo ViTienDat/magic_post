@@ -35,9 +35,12 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
-        defaultValue: "dang giao",
+        defaultValue: "waiting",
       },
       price: {
+        type: Sequelize.STRING,
+      },
+      type: {
         type: Sequelize.STRING,
       },
       createdAt: {

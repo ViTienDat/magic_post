@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
-      },
       order_id: {
         type: Sequelize.INTEGER,
       },
@@ -26,6 +23,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
+        defaultValue: "waiting",
       },
       createdAt: {
         allowNull: false,
